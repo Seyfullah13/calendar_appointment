@@ -29,6 +29,10 @@ class Rendezvous
     #[ORM\Column(length: 255)]
     private ?string $raison = null;
 
+    #[ORM\ManyToOne(inversedBy: 'rendezvous')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Client $client = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -90,6 +94,18 @@ class Rendezvous
     public function setRaison(string $raison): static
     {
         $this->raison = $raison;
+
+        return $this;
+    }
+
+    public function getClient(): ?Client
+    {
+        return $this->client;
+    }
+
+    public function setClient(?Client $client): static
+    {
+        $this->client = $client;
 
         return $this;
     }

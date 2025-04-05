@@ -2,13 +2,16 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Metadata\ApiResource;
 use App\Repository\RendezvousRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
+#[ApiResource()]
 #[ORM\Entity(repositoryClass: RendezvousRepository::class)]
 class Rendezvous
 {
+
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]

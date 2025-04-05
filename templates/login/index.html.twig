@@ -1,23 +1,70 @@
-{# templates/login/index.html.twig #}
-{% extends 'base.html.twig' %}
-
-{# ... #}
-
 {% block body %}
-    {% if error %}
-        <div>{{ error.messageKey|trans(error.messageData, 'security') }}</div>
-    {% endif %}
+<style>
+    body, html {
+        height: 100%;
+        margin: 0;
+    }
+    .login-container {
+        background-color: white;
+        padding: 40px;
+        border-radius: 10px;
+        max-width: 400px;
+        width: 100%;
+        text-align: center;
+        box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+        position: absolute;
+        top: 30%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+    }
+    .login-logo {
+        display: block;
+        margin: 0 auto 20px;
+        width: 150px;
+     
+    }
+    .btn{
+        margin-left:50px;
+    }
+    .form-control2{
+        margin-left:100px;
+    }
+</style>
 
-    <form action="{{ path('app_login') }}" method="post">
-        <label for="username">Email:</label>
-        <input type="text" id="username" name="_username" value="{{ last_username }}" required>
+<div class="container">
+    <div class="login-container">
+        {% if error %}
+            <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+        {% endif %}
 
-        <label for="password">Password:</label>
-        <input type="password" id="password" name="_password" required>
+        {% if app.user %}
+            <div class="mb-3">
+                You are logged in as {{ app.user.userIdentifier }}, <a href="{{ path('app_logout') }}">Logout</a>
+            </div>
+        {% endif %}
 
-        {# If you want to control the URL the user is redirected to on success
-        <input type="hidden" name="_target_path" value="/account"> #}
+      
 
-        <button type="submit">login</button>
-    </form>
+        <h1 class="h3 mb-3 font-weight-normal">Connexion</h1>
+        
+        <form method="post">
+            <div class="form-group">
+                <label for="username" style="display:block;">Login utilisateur</label>
+                <input type="text" value="{{ last_username }}" name="_username" id="username" class="form-control" autocomplete="username" required autofocus>
+            </div>
+            <div class="form-group">
+                <label for="password" style="display:block;">Mot de passe</label>
+                <input type="password" name="_password" id="password" class="form-control" autocomplete="current-password" required>
+            </div>
+
+            <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+            <br>
+            <button class="btn btn-lg btn-danger" style="background-color: blue; border-color: red; margin-right: auto;" type="submit">
+                Se connecter
+            </button>
+        </form>
+    </div>
+</div>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.2/css/bootstrap.min.css">
 {% endblock %}
